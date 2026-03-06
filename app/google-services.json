@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845939107329",
+    "project_id": "auditflow-4ee26",
+    "storage_bucket": "auditflow-4ee26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845939107329:android:5c1cc0f0034d229456c200",
+        "android_client_info": {
+          "package_name": "com.example.auditflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4n8ntTzmKeJZYSedL-q0Xb8Qa4jHcVJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
