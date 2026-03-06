@@ -25,8 +25,6 @@ import com.example.auditflow.presentation.dashboard.DashboardScreen
 import com.example.auditflow.presentation.dashboard.DashboardViewModel
 import com.example.auditflow.presentation.onboarding.OnboardingScreen
 import com.example.auditflow.presentation.onboarding.OnboardingViewModel
-
-// THE CRITICAL FIX: Properly importing the AuditFlowTheme function
 import com.example.auditflow.presentation.theme.AuditFlowTheme
 
 class MainActivity : ComponentActivity() {

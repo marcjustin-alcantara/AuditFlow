@@ -2,14 +2,16 @@ package com.example.auditflow.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-val DefaultPrimary = Color(0xFF455A64) // Neutral Gray/Blue for Auth/Onboarding
-val DefaultSecondary = Color(0xFF607D8B)
+// Cyberpunk Base Colors
+val DefaultPrimary = Color(0xFF00FFCC) // Neon Cyan for Auth/Onboarding
+val DefaultSecondary = Color(0xFFFF00FF) // Neon Magenta
 
-// Department Specific Colors
-val SalesGreen = Color(0xFF2E7D32) // Sales: Travel/Client Meals
-val ItBlue = Color(0xFF1565C0)     // IT: Software/Hardware
-val HrPurple = Color(0xFF6A1B9A)   // HR: Training/Recruitment
+// Department Specific Colors (Strictly kept naming conventions for Dashboard logic)
+val SalesGreen = Color(0xFF39FF14) // Sales: Neon Matrix Green
+val ItBlue = Color(0xFF00E5FF)     // IT: Electric Cyan Blue
+val HrPurple = Color(0xFFB026FF)   // HR: Deep Neon Purple
 
-val BackgroundLight = Color(0xFFF5F5F5)
-val SurfaceLight = Color(0xFFFFFFFF)
-val ErrorRed = Color(0xFFD32F2F)
+// Dark Void Backgrounds
+val BackgroundDark = Color(0xFF050505) // Pitch black terminal background
+val SurfaceDark = Color(0xFF121214)    // Slightly raised dark surface for cards
+val ErrorRed = Color(0xFFFF003C)       // High-alert neon red
