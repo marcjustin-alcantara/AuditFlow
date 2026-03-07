@@ -3,7 +3,10 @@ package com.example.auditflow.presentation.dashboard
 import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -15,7 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.auditflow.domain.model.ExpenseItem
 import com.example.auditflow.presentation.theme.*
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +91,7 @@ fun DashboardScreen(
 
                     Card(
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                        border = BorderStroke(2.dp, departmentColor), // Cyberpunk Neon Glow Border
+                        border = BorderStroke(2.dp, departmentColor),
                         shape = CutCornerShape(topStart = 16.dp, bottomEnd = 16.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -150,7 +157,27 @@ fun DashboardScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Column(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                        Text(
+                            text = ">> LOCAL_RECORDS //",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(state.expenses) { expense ->
+                                ExpenseRecordItem(expense = expense, color = departmentColor)
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     OutlinedButton(
                         onClick = { viewModel.processIntent(DashboardIntent.Logout) },
@@ -167,7 +194,32 @@ fun DashboardScreen(
 }
 
 @Composable
-fun DashboardCursor(color: androidx.compose.ui.graphics.Color) {
+fun ExpenseRecordItem(expense: ExpenseItem, color: Color) {
+    val sdf = remember { SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault()) }
+    val dateStr = remember(expense.timestamp) { sdf.format(Date(expense.timestamp)) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface, shape = CutCornerShape(topEnd = 12.dp, bottomStart = 12.dp))
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(text = ">> ${expense.expenseType.uppercase()}", style = MaterialTheme.typography.bodyLarge, color = color)
+            Text(text = "TS: $dateStr", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f))
+        }
+        Text(
+            text = "$${expense.amount}",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+}
+
+@Composable
+fun DashboardCursor(color: Color) {
     val infiniteTransition = rememberInfiniteTransition(label = "cursor")
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0f,

@@ -16,6 +16,7 @@ import com.example.auditflow.data.repository.AuthRepositoryImpl
 import com.example.auditflow.data.repository.ExpenseRepositoryImpl
 import com.example.auditflow.data.repository.ProfileRepositoryImpl
 import com.example.auditflow.domain.use_case.auth.*
+import com.example.auditflow.domain.use_case.expense.GetExpensesUseCase
 import com.example.auditflow.domain.use_case.expense.SubmitExpenseUseCase
 import com.example.auditflow.domain.use_case.profile.GetUserProfileUseCase
 import com.example.auditflow.domain.use_case.profile.SaveUserProfileUseCase
@@ -62,7 +63,9 @@ fun AuditFlowApp() {
 
     val saveUserProfileUseCase = remember { SaveUserProfileUseCase(profileRepository) }
     val getUserProfileUseCase = remember { GetUserProfileUseCase(profileRepository) }
+
     val submitExpenseUseCase = remember { SubmitExpenseUseCase(expenseRepository) }
+    val getExpensesUseCase = remember { GetExpensesUseCase(expenseRepository) }
 
     // Initial Routing Logic
     val startDestination = if (getCurrentUserIdUseCase() != null) "dashboard" else "auth"
@@ -99,7 +102,7 @@ fun AuditFlowApp() {
 
         composable("dashboard") {
             val dashboardViewModel = remember {
-                DashboardViewModel(getUserProfileUseCase, submitExpenseUseCase, logoutUseCase, getCurrentUserIdUseCase)
+                DashboardViewModel(getUserProfileUseCase, submitExpenseUseCase, getExpensesUseCase, logoutUseCase, getCurrentUserIdUseCase)
             }
             DashboardScreen(
                 viewModel = dashboardViewModel,

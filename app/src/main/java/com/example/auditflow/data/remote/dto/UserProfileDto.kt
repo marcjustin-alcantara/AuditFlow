@@ -1,7 +1,8 @@
 package com.example.auditflow.data.remote.dto
 
-// Firebase requires default values to convert documents back into objects
+import java.util.Date
+
 data class UserProfileDto(
     val department: String = "",
-    val joinDate: Long = 0L
+    val joinDate: Date? = null // Changed to Date for Firestore Timestamp
 )

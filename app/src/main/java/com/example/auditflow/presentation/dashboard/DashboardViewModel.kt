@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auditflow.domain.use_case.auth.GetCurrentUserIdUseCase
 import com.example.auditflow.domain.use_case.auth.LogoutUseCase
+import com.example.auditflow.domain.use_case.expense.GetExpensesUseCase
 import com.example.auditflow.domain.use_case.expense.SubmitExpenseUseCase
 import com.example.auditflow.domain.use_case.profile.GetUserProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class DashboardViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val submitExpenseUseCase: SubmitExpenseUseCase,
+    private val getExpensesUseCase: GetExpensesUseCase, // NEW
     private val logoutUseCase: LogoutUseCase,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) : ViewModel() {
@@ -63,9 +65,20 @@ class DashboardViewModel(
                             selectedExpenseType = expenseTypes.firstOrNull() ?: ""
                         )
                     }
+                    // NEW: Start observing expenses once we know the user is valid
+                    observeExpenses(userId)
                 }
             } else {
                 _state.update { it.copy(isLoading = false, error = result.exceptionOrNull()?.message) }
+            }
+        }
+    }
+
+    // NEW: Collects the Flow and updates the state whenever Firestore changes
+    private fun observeExpenses(userId: String) {
+        viewModelScope.launch {
+            getExpensesUseCase(userId).collect { expenseList ->
+                _state.update { it.copy(expenses = expenseList) }
             }
         }
     }
@@ -92,8 +105,8 @@ class DashboardViewModel(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        successMessage = "Expense submitted successfully!",
-                        expenseAmount = "" // Clear the field
+                        successMessage = "Record injected to mainframe.",
+                        expenseAmount = ""
                     )
                 }
             } else {
